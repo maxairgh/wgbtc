@@ -38,7 +38,7 @@ class Learner extends Model
      */
     public function programs()
     {
-        return $this->hasMany(LearnerProgram::class,'id','program_id');
+        return $this->hasMany(LearnerProgram::class,'learner_id','id');
     }
 
            /**

@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'logIn'])->name('login');  
+Route::get('/online/registration', App\Http\Livewire\Admin\Onlineregistration::class);
+
 /*
 Administrators 
 routes
@@ -22,16 +24,17 @@ routes
 Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
 {
     //All the routes that belongs to the group goes here
-    Route::get('dashboard', function() {} );
-});
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard')->middleware(['auth']); 
-Route::resource('/user', App\Http\Controllers\UserController::class)->middleware('auth');
-Route::resource('/settings', App\Http\Controllers\SettingsController::class)->middleware('auth');
-Route::get('/news', App\Http\Livewire\Admin\Annoucements::class)->name('news')->middleware('auth');
-Route::get('/program', App\Http\Livewire\Admin\Program::class)->name('program')->middleware('auth');
-Route::get('/course', App\Http\Livewire\Admin\Courses::class)->name('course')->middleware('auth');
-Route::get('/learner-registration', App\Http\Livewire\Admin\Learners::class)->name('registerlearner')->middleware('auth');
-Route::get('/learner-registration', App\Http\Livewire\Admin\Learners::class)->name('registerlearner')->middleware('auth');
-Route::resource('/online-registration', App\Http\Controllers\OnlineRegistrationController::class);
+    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard'); 
+    Route::resource('/user', App\Http\Controllers\UserController::class);
+    Route::resource('/settings', App\Http\Controllers\SettingsController::class);
+    Route::get('/news', App\Http\Livewire\Admin\Annoucements::class)->name('news');
+    Route::get('/program', App\Http\Livewire\Admin\Program::class)->name('program');
+    Route::get('/course', App\Http\Livewire\Admin\Courses::class)->name('course');
+    Route::get('/learner-registration', App\Http\Livewire\Admin\Learners::class)->name('registerlearner');
+    Route::get('/search-learner', App\Http\Livewire\Admin\Searchlearner::class)->name('searchlearner');
+    Route::get('/edit-learner/{learnerid}', App\Http\Livewire\Admin\Editlearner::class)->name('editlearner');
+    Route::get('/online-approval', App\Http\Livewire\Admin\Editlearner::class)->name('onlineapprove');
  
+});
+
 require __DIR__.'/auth.php';

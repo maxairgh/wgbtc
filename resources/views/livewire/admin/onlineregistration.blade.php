@@ -1,15 +1,16 @@
 <div>      
-@section('title','Learners')
+@section('title','Online Registration')
 
 @section('navigation')
 <div class="card">
 <div class="card-body">
 <div class="row">
 	<div class="col-md-6">
-	<h5>Annoucement</h5>
-	</div>
-    <div class="col-md-6 text-center">
-          
+	<h5 class="text-info">WORD OF GRACE BIBLE TRAINING COLLEGE</h5>
+	<p>Online Application Form</p>
+</div>
+    <div class="col-md-6 bg-info">
+            
 	</div>
 </div>
 </div>
@@ -37,18 +38,12 @@
 </div>
 </div>
 
-<div class="bg-gray text-center">
-<div class="btn-group btn-group-md mb-2" role="group" aria-label="Small button group">
-			    <a href="{{ route('searchlearner') }}" class="btn btn-info btn-md"> Search Learners</a>
-			    <a href="#" class="btn btn-success btn-md"> Online Registration </a>
-		   </div>
-</div>
 
 <div class="card">
 <div class="card-body">
 <div class="row">
     <div class="col-md-12">
-    <h6>Learner Details</h6>
+    <h6>Applicant Details</h6>
     <hr class="text-primary">
     </div>
 </div>
@@ -128,11 +123,8 @@
         <div class="col-md-4">
             <div class="form-floating mb-3">
             <select class="form-select" id="floatingSelect" required wire:model="status" aria-label="Floating label select example">
-            <option value="">Select</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option> 
-            <option value="Completed">Completed</option>  
-            </select>
+            <option value="Pending">Pending</option>
+             </select>
             <label for="floatingSelect">Status</label>
             @error('status') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
@@ -164,13 +156,13 @@
 
     <div class="row mt-3">
     <div class="col-md-12">
-    <h6>Registration Details</h6>
+    <h6>Preferred Program</h6>
     <hr class="text-primary">
     </div>
     </div>
      
     <div class="row mt-2">
-       <div class="col-md-12">
+       <div class="col-md-6">
        <div class="form-floating">
             <select class="form-select" id="floatingSelect" required wire:model="programid" aria-label="Floating label select example">
             <option value="">Select</option>
@@ -182,10 +174,12 @@
             @error('programid') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
         </div>
-
+        <div class="col-md-6">
+            
+        </div>
 
         <div class="mt-3 col-md-12 text-center">
-            <button type="submit" wire:click="saveDetail" class="btn btn-primary btn-sm">SAVE DETAILS</button>
+            <button type="submit" wire:click="saveDetail" class="btn btn-success btn-sm">Apply Now</button>
         </div>
 
     </div>
@@ -203,4 +197,6 @@ $(document).ready(function() {
 </script>
 @endsection
 </div>
+
+
 

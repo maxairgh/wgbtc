@@ -18,7 +18,7 @@ class LearnerProgram extends Model
         'id',
         'learner_id',
         'program_id', 
-        'check', 
+        'checks', 
         'startdate', 
         'enddate', 
     ];
@@ -28,7 +28,7 @@ class LearnerProgram extends Model
      */
     public function learner()
     {
-        return $this->belongsTo(Learner::class,'id','learner_id');
+        return $this->belongsTo(Learner::class,'learner_id','id');
     }
 
             /**
@@ -36,7 +36,7 @@ class LearnerProgram extends Model
      */
     public function program()
     {
-        return $this->belongsTo(Program::class,'id','program_id');
+        return $this->belongsTo(Program::class,'program_id','id');
     }
     
 }
