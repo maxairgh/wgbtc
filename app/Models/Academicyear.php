@@ -21,4 +21,12 @@ class Academicyear extends Model
         'created_at', 
         'updated_at', 
     ];
+
+          /**
+     * Get the programs associated with the user.
+     */
+    public function terms()
+    {
+        return $this->hasMany(Term::class,'academyyear_id','id');
+    }
 }

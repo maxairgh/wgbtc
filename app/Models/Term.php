@@ -23,4 +23,12 @@ class Term extends Model
         'created_at', 
         'updated_at', 
     ];
+
+             /**
+     * Get the academic year associated with the user.
+     */
+    public function academicyear()
+    {
+        return $this->belongsTo(Academicyear::class,'academyyear_id','id');
+    }
 }
