@@ -102,7 +102,7 @@
 					</li>
 				 	
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{ route('dashboard') }}">
+						<a class="sidebar-link" href="{{ route('session') }}">
               			<i class="align-middle" data-feather="settings"></i> <span class="align-middle">Session</span>
             			</a>
 					</li>  

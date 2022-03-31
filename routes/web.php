@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
     Route::get('/search-learner', App\Http\Livewire\Admin\Searchlearner::class)->name('searchlearner');
     Route::get('/edit-learner/{learnerid}', App\Http\Livewire\Admin\Editlearner::class)->name('editlearner');
     Route::get('/online-approval', App\Http\Livewire\Admin\Onlineapprove::class)->name('onlineapprove');
+    Route::get('/sessions', App\Http\Livewire\Admin\Session::class)->name('session');
  
 });
 
