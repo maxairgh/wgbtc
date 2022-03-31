@@ -40,7 +40,7 @@
 <div class="bg-gray text-center">
 <div class="btn-group btn-group-md mb-2" role="group" aria-label="Small button group">
 			    <a href="{{ route('searchlearner') }}" class="btn btn-info btn-md"> Search Learners</a>
-			    <a href="#" class="btn btn-success btn-md"> Online Registration </a>
+			    <a href="{{ route('onlineapprove') }}" class="btn btn-success btn-md"> Online Registration </a>
 		   </div>
 </div>
 

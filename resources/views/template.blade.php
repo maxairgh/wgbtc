@@ -50,3 +50,4 @@ $(document).ready(function() {
 @endsection
 </div>
 
+do the checks  from the route 

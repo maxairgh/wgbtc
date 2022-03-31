@@ -51,7 +51,7 @@ class Learners extends Component
           'lastname' =>  $this->lastname, 
           'middlename' =>  $this->middlename, 
           'gender' =>  $this->gender, 
-          'dob' =>  $this->dob, 
+          'dob' => date('Y-m-d',strtotime($this->dob)), 
           'marital_status' =>  $this->maritalstatus, 
           'status' =>  $this->status, 
           'mobile' =>  $this->phonenumber, 
@@ -99,8 +99,6 @@ class Learners extends Component
         DB::rollback();
         session()->flash('error', 'Learner registration not successful');
        }
-
-
     }
 
 

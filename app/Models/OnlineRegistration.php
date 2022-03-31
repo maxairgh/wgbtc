@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class OnlineRegistration extends Model
 {
@@ -28,4 +29,12 @@ class OnlineRegistration extends Model
         'updated_at',
     ];
     
+    public function getAge() {
+        return Carbon::parse($this->dob)->age; 
+    }
+
+    public function program()
+    {
+        return $this->belongsTo(Program::class, 'program_id','id');
+    }
 }
