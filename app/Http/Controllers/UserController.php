@@ -81,4 +81,13 @@ class UserController extends Controller
     {
         //
     }
+
+    public function adminProfile(){
+        return view('profile.adminprofile');
+    }
+
+    public function learnerProfile(){}
+
+    public function facilitatorProfile(){}
+
 }

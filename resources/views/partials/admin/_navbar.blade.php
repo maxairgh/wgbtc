@@ -120,7 +120,7 @@
                 <img src="{{asset('/storage/users').'/'.Auth::user()->picture}}" class="avatar img-fluid rounded me-1" alt="Image" /> <span class="text-dark">{{ Auth::user()->firstname . ' ' . Auth::user()->lastname}}</span>
               </a>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="{{ route('dashboard') }}"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
+								<a class="dropdown-item" href="{{ route('userprofile') }}"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="{{ route('dashboard') }}"><i class="align-middle me-1" data-feather="settings"></i> Settings</a>
 								

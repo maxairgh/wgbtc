@@ -187,6 +187,6 @@ public function deleteUser($id){
     {
         return view('livewire.user-management',[
             'availableusers' => User::paginate(15),
-        ]);
+        ])->layout('layouts.admin'); 
     }
 }

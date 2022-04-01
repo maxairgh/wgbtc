@@ -23,6 +23,12 @@ class Program extends Model
         'updated_at', 
     ];
 
- 
+        /**
+     * Get the courses associated with the program.
+     */
+    public function courses()
+    {
+        return $this->hasMany(Course::class,'program_id','id');
+    }
 
 }

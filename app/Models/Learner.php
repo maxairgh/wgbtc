@@ -44,9 +44,11 @@ class Learner extends Model
            /**
      * Get the programs associated with the user.
      */
-    public function course()
+    public function courses()
     {
-        return $this->hasMany(Course::class);
+        return $this->hasMany(LearnerCourseRegistration::class,'learner_id','id');
     }
+
+ 
 
 }

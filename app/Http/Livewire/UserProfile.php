@@ -106,6 +106,7 @@ class UserProfile extends Component
 
     public function render()
     {
-        return view('livewire.user-profile');
+        return view('livewire.user-profile') 
+        ->layout('layouts.admin'); 
     }
 }

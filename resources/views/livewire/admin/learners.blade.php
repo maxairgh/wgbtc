@@ -6,7 +6,7 @@
 <div class="card-body">
 <div class="row">
 	<div class="col-md-6">
-	<h5>Annoucement</h5>
+	<h5>Learner Registration</h5>
 	</div>
     <div class="col-md-6 text-center">
           
@@ -41,6 +41,7 @@
 <div class="btn-group btn-group-md mb-2" role="group" aria-label="Small button group">
 			    <a href="{{ route('searchlearner') }}" class="btn btn-info btn-md"> Search Learners</a>
 			    <a href="{{ route('onlineapprove') }}" class="btn btn-success btn-md"> Online Registration </a>
+			    <a href="{{ route('admincoursereg') }}" class="btn btn-primary btn-md"> Course Registration</a>
 		   </div>
 </div>
 

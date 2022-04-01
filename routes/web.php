@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'logIn'])->name('login');  
 Route::get('/online/registration', App\Http\Livewire\Admin\Onlineregistration::class);
+//Route::get('/user/profile', App\Http\Livewire\UserProfile::class)->name('');
 
 /*
 Administrators 
@@ -25,7 +26,9 @@ Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
 {
     //All the routes that belongs to the group goes here
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard'); 
-    Route::resource('/user', App\Http\Controllers\UserController::class);
+    Route::get('/user/profile', [App\Http\Controllers\UserController::class, 'adminProfile'])->name('userprofile'); 
+    //Route::resource('/user', App\Http\Controllers\UserController::class);
+    Route::get('/user/management', App\Http\Livewire\UserManagement::class)->name('manageuser');
     Route::resource('/settings', App\Http\Controllers\SettingsController::class);
     Route::get('/news', App\Http\Livewire\Admin\Annoucements::class)->name('news');
     Route::get('/program', App\Http\Livewire\Admin\Program::class)->name('program');
@@ -35,7 +38,8 @@ Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
     Route::get('/edit-learner/{learnerid}', App\Http\Livewire\Admin\Editlearner::class)->name('editlearner');
     Route::get('/online-approval', App\Http\Livewire\Admin\Onlineapprove::class)->name('onlineapprove');
     Route::get('/sessions', App\Http\Livewire\Admin\Session::class)->name('session');
- 
+    Route::get('/course/registration', App\Http\Livewire\Admin\LearnerCourseRegistration::class)->name('admincoursereg');
+    
 });
 
 require __DIR__.'/auth.php';

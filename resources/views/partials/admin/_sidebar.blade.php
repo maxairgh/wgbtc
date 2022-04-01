@@ -43,6 +43,11 @@
 				</a>
 			</li>
 
+			<li class="sidebar-item">
+				<a class="sidebar-link" href="{{ route('admincoursereg') }}">
+				<i class="align-middle" data-feather="refresh-cw"></i> <span class="align-middle">Course Registration</span>
+				</a>
+			</li>
 
 
 					<li class="sidebar-header">
@@ -90,13 +95,13 @@
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{ route('user.index') }}">
+						<a class="sidebar-link" href="{{ route('userprofile') }}">
               <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
             </a>
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{ route('user.create') }}">
+						<a class="sidebar-link" href="{{ route('manageuser') }}">
               <i class="align-middle" data-feather="users"></i> <span class="align-middle">User Management</span>
             </a>
 					</li>
