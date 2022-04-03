@@ -90,7 +90,7 @@
 
           <div class="mt-2">
 					<div class="form-floating">
-						<input type="text" class="form-control input-sm" wire:model="mobile" name="firstname" placeholder="Mobile Number">
+						<input type="tel" class="form-control input-sm" wire:model="mobile" name="firstname" placeholder="Mobile Number">
 						<label for="floatingPassword">Mobile Number</label>
 					</div>
           @error('mobile') <span class="text-danger">{{ $message }}</span> @enderror 
@@ -98,7 +98,7 @@
 
           <div class="mt-2">
 					<div class="form-floating">
-						<input type="text" class="form-control input-sm" wire:model="email" name="firstname" placeholder="Email Address">
+						<input type="email" class="form-control input-sm" wire:model="email" name="firstname" placeholder="Email Address">
 						<label for="floatingPassword">Email Address</label>
 					</div>
           @error('email') <span class="text-danger">{{ $message }}</span> @enderror 
@@ -107,15 +107,15 @@
           <select class="form-select mt-2" wire:model.lazy="usertype" aria-label="Default select example">
             <option selected>User Type</option>
             <option value="admin">Admin</option>
-            <option value="facilitator">'facilitator</option> 
-            <option value="learner">'learner</option> 
+            <option value="facilitator">Facilitator</option> 
+            <option value="learner">Learner</option> 
           </select>
           @error('usertype') <span class="text-danger">{{ $message }}</span> @enderror 
 
           <select class="form-select mt-2" wire:model.lazy="userstatus" aria-label="Default select example">
             <option selected>Status</option>
             <option value="Active">Active</option>
-            <option value="Inactive">'Inactive</option> 
+            <option value="Inactive">Inactive</option> 
           </select>
           @error('userstatus') <span class="text-danger">{{ $message }}</span> @enderror 
 

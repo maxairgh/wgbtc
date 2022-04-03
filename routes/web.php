@@ -38,7 +38,8 @@ Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
     Route::get('/edit-learner/{learnerid}', App\Http\Livewire\Admin\Editlearner::class)->name('editlearner');
     Route::get('/online-approval', App\Http\Livewire\Admin\Onlineapprove::class)->name('onlineapprove');
     Route::get('/sessions', App\Http\Livewire\Admin\Session::class)->name('session');
-    Route::get('/course/registration', App\Http\Livewire\Admin\LearnerCourseRegistration::class)->name('admincoursereg');
+    Route::get('learners/course/registration', App\Http\Livewire\Admin\LearnerCourseRegistration::class)->name('admincoursereg');
+    Route::get('facilitators/course/registration', App\Http\Livewire\Admin\FacilitatorCoursereg::class)->name('teacherscoursereg');
     
 });
 
