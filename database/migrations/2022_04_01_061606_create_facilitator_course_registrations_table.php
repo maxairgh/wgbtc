@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('facilitator_course_registrations', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('learner_id')->unsigned();
+            $table->bigInteger('staff_id')->unsigned();
             $table->bigInteger('course_id')->unsigned();
             $table->string('checks')->unique();
             $table->timestamps();
-            $table->foreign('learner_id')->references('id')->on('learners')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('learner_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('restrict')->onUpdate('cascade');
             
         });

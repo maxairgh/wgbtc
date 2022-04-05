@@ -43,4 +43,15 @@ Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
     
 });
 
+
+/*
+Facilitators 
+routes
+*/
+Route::group(['prefix' => 'facilitators',  'middleware' => 'auth'], function()
+{
+
+    
+});
+
 require __DIR__.'/auth.php';

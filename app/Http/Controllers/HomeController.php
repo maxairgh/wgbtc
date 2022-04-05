@@ -18,7 +18,7 @@ class HomeController extends Controller
         }
     
         if (strcmp(Auth::user()->type,'facilitator') == 0){
-            return view('facilitators.dashboard');
+            return view('facilitator.dashboard');
         }
 
     }
