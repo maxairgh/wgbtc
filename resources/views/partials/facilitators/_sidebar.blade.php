@@ -11,8 +11,18 @@
               			<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
             		</a>
 					</li>
-					
 
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ route('fnews') }}">
+              			<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">News</span>
+            		</a>
+					</li>
+					
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ route('fcoursecontent') }}">
+              			<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Course Content</span>
+            		</a>
+					</li>
 
 
 				<div class="sidebar-cta text-center">

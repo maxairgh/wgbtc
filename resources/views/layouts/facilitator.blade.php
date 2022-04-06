@@ -51,7 +51,7 @@
 				</div>
 			</main>
 
-		<!-- partial:partials/_footer.html -->
+		<!-- partial:partials/_footer.html 341904 509420 -->
 		@include('partials.admin._footer')
 		<!-- partial -->				
 		</div>

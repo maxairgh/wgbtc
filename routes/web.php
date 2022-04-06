@@ -50,7 +50,8 @@ routes
 */
 Route::group(['prefix' => 'facilitators',  'middleware' => 'auth'], function()
 {
-
+    Route::get('news', App\Http\Livewire\Facilitators\Displaynews::class)->name('fnews');
+    Route::get('course/content', App\Http\Livewire\Facilitators\Coursecontent::class)->name('fcoursecontent');
     
 });
 
