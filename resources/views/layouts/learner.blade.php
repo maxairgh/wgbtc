@@ -65,7 +65,6 @@
 <!--<script src="{{ asset('vendors/bootstrap5/js/bootstrap.min.js') }}" defer></script> -->
 <script type="text/javascript" src="{{ asset('vendors/DataTables/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendors/select2/js/select2.full.min.js') }}"></script>
-<script src="{{ asset('vendors/summernote/summernote.min.js') }}"></script>
 <script src="{{ asset('vendors/dt/build/jquery.datetimepicker.full.min.js') }}"></script>  
 <script src="{{ asset('vendors/ckeditor/ckeditor.js') }}" defer></script>
 <script src="{{ asset('vendors/js/app.js') }}" defer></script>

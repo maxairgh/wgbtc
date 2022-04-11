@@ -129,11 +129,10 @@ Livewire.on('resetEmittedData',()=>{
     @this.set('details','');
 });
 
-// The "change" event is fired whenever a change is made in the editor.
+// when a change occuress in the edit set it to variable.
 editor.on( 'change', function( evt ) {
     // getData() returns CKEditor's HTML content.
-  
-    @this.set('details',evt.editor.getData() );
+  @this.set('details',evt.editor.getData() );
   });
 
 });

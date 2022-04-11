@@ -15,6 +15,7 @@ class Annoucements extends Component
 
     public $viewMode = true, $caption, $details, $status, $label = 'SAVE NEWS',$isUpdate = false;
     public $deleteID, $editID;
+    
     public function saveNews(){
         // $this->emit('setDetailsDateEvent');
        
