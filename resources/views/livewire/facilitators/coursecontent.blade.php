@@ -16,6 +16,27 @@
 </div>
 @endsection
 
+<div class="row">
+<div class="col-md-12">
+@if (session()->has('success'))
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="alert-message">
+    <strong>Hello there! </strong> {{ session('success') }} 
+  </div>
+</div>
+@endif
+@if (session()->has('error'))
+<div class="alert alert-danger alert-dismissible" role="alert">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="alert-message">
+    <strong>Hello there! {{ session('error') }}</strong>  
+  </div>
+</div>
+@endif
+</div>
+</div>
+
 <!--courses section-->
 <div class="row {{ ($selectMode) ? '' : 'd-none'}}">
     <div class="col-md-12">
@@ -151,7 +172,12 @@
             </div>
 
             <div class="text-center mt-2">
-            <button wire:click="saveContent" type="button" class="btn btn-success" >SAVE</button>
+
+            <div wire:loading wire:target="saveContent" class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+
+            <button wire:click="saveContent" type="button" class="btn btn-success" >{{  $label }}</button>
             </div>
             </div>
         </div>
@@ -160,20 +186,20 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalFullscreen" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
-  <div class="modal-dialog modal-fullscreen">
+<div class="modal fade" id="displayContentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title h4" id="exampleModalFullscreenLabel">Couse Content Details</h5>
+        <h5 class="modal-title" id="displayContentModalLabel">{{ $Vchapter }}</h5> 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        
-     
-
+      <h6 class="">{{ $Vtitle }}</h6>
+         <div style="overflow-x: hidden; overflow-y: auto;">
+             {!! $Vdetails !!}
+        </div>
       </div>
       <div class="modal-footer">
-       
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
@@ -201,6 +227,11 @@ $(document).ready(function() {
         @this.set('Ndetails',evt.editor.getData() );
     });
 
+    Livewire.on('showModalEvent',()=>{
+         $('#displayContentModal').modal('show');
+    });
+
+  
 });
 </script>
 @endsection

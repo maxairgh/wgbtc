@@ -11,6 +11,7 @@ use App\Models\FacilitatorCourseRegistration as coursereg;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\SmsTrait;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Vimeo\Laravel\Facades\Vimeo;
 
 class Coursecontent extends Component
 {
@@ -45,16 +46,53 @@ class Coursecontent extends Component
         $this->validate([
             'Nchapter' => ['required','string'],  
             'Ntitle' => ['required','string'],  
-            //'Nfile' => ['required','integer'],  
-            'Nstatus' => ['required','string'],  
+            'Nfile' => ['sometimes','mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi'],  
+            'Nstatus' => ['required','integer'],  
             'Norder' => ['required','integer'],  
             'Ndetails' => ['required','string'],  
         ]); 
 
-        if ($isUpdate){
-
+        if ($this->isUpdate){
+            //update
+            $done = Content::where('id',$this->updateID)->update([
+                'chapter' => $this->Nchapter, 
+                'title' => $this->Ntitle,
+                //'video' => $this->Nfile,
+                'status' => $this->Nstatus,
+                'details' => $this->Ndetails,
+                'order' => $this->Norder,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+    
+            if ($done){
+                session()->flash('success', 'Content updated successfully');
+                $this->resetForm();
+                $this->alert('success', 'Content updated successfully',[
+                 'position' => 'center'
+             ]);
+             return;
+            }  
         }else{
-
+            $done = Content::create([
+                'course_id' => $this->selectCourse->id, 
+                'chapter' => $this->Nchapter, 
+                'title' => $this->Ntitle,
+                //'video' => $this->Nfile,
+                'status' => $this->Nstatus,
+                'details' => $this->Ndetails,
+                'order' => $this->Norder,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+    
+            if ($done){
+                session()->flash('success', 'Content added successfully');
+                $this->resetForm();
+                $this->alert('success', 'Content added successfully',[
+                 'position' => 'center'
+             ]);
+             return;
+            }
         }
 
         
@@ -69,11 +107,13 @@ class Coursecontent extends Component
     $this->Norder =""; 
     $this->Ndetails ="";
     $this->updateID = "";
-    $this->updateID = "";
+    $this->isUpdate = false;
+    $this->label = "SAVE";
    }
 
    public function backToCourses(){
     $this->selectMode = true;
+    $this->resetForm();
    }
 
    public function getCourseContent($id){
@@ -81,8 +121,9 @@ class Coursecontent extends Component
    }
 
    public function viewContentDetails($id){
-    $content = Content::where('course_id',$id)->orderBy('order')->first();
+    $content = Content::where('id',$id)->orderBy('order')->first();
     if ($content){
+        $this->emit('showModalEvent');
         $this->updateID = $content->id;
         $this->Vchapter = $content->chapter;
         $this->Vtitle = $content->title;
@@ -90,8 +131,6 @@ class Coursecontent extends Component
         $this->Vstatus = $content->status;
         $this->Vorder = $content->order;
         $this->Vdetails = $content->details;
-        $this->label = "UPDATE";
-        $this->isUpdate = true;
         $this->alert('success', 'Content Loaded',[
             'position' => 'center'
         ]);
@@ -105,6 +144,9 @@ class Coursecontent extends Component
    public function editContentDetails($id){
     $content = Content::where('id',$id)->orderBy('order')->first();
     if ($content){
+        $this->label = "UPDATE";
+        $this->isUpdate = true;
+        $this->updateID = $content->id;
         $this->Nchapter = $content->chapter;
         $this->Ntitle = $content->title;
         $this->Nfile = $content->video;
