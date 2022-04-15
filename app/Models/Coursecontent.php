@@ -26,4 +26,15 @@ class Coursecontent extends Model
         'updated_at', 
     ];
 
+            /**
+     * Get the published content associated with the content item.
+     */
+    public function published(){
+        return $this->hasMany(PubblishContent::class,'content_id','id');
+    }
+
+    public function publishedForActiveTerm($id){
+        return $this->published()->where('term_id', $id)->first();
+    }
+
 }

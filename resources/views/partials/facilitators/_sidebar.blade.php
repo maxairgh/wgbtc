@@ -22,6 +22,17 @@
 						<a class="sidebar-link" href="{{ route('fcoursecontent') }}">
               			<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Course Content</span>
             		</a>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ route('fcoursecontent') }}">
+              			<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Course Works</span>
+            		</a>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ route('fcoursecontent') }}">
+              			<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Course Quizes</span>
+            		</a>
+
 					</li>
 
 

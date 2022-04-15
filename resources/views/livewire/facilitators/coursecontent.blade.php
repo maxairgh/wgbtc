@@ -91,24 +91,32 @@
         <li class="list-group-item d-flex justify-content-between align-items-start">
             <div class="ms-2 me-auto">
             <div class="fw-bold">{{ $content->chapter }}</div>
-            {{ $content->title }}
+            {{ $content->title }} 
 			 <div class="text-success">
-             <svg xmlns="http://www.w3.org/2000/svg" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top" title="View video" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video align-middle me-2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>| 
              <svg xmlns="http://www.w3.org/2000/svg" wire:click="viewContentDetails({{ $content->id }})" data-bs-toggle="tooltip" data-bs-placement="top" title="View content" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye align-middle me-2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>| 
              <svg xmlns="http://www.w3.org/2000/svg" wire:click="editContentDetails({{ $content->id }})"  data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit align-middle me-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>|
-             <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="tooltip" data-bs-placement="top" title="Bookmark to Term" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark align-middle me-2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>|
-             <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu align-middle me-2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+             <svg xmlns="http://www.w3.org/2000/svg" wire:click="deleteMaterial({{ $content->id }})" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-delete align-middle me-2"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg> |
+             @if ($content->publishedForActiveTerm($activeTerm->id))
+             @php 
+             $publish = $content->publishedForActiveTerm($activeTerm->id)
+             @endphp
+             <svg xmlns="http://www.w3.org/2000/svg"  wire:click="unPublishContent({{ $publish->id }})" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell align-middle me-2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+             @endif
+             @if (!$content->publishedForActiveTerm($activeTerm->id))
+             <svg xmlns="http://www.w3.org/2000/svg" wire:click="publishContentForActiveTerm({{ $content->id }})" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell-off align-middle me-2"><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><path d="M18.63 13A17.89 17.89 0 0 1 18 8"></path><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"></path><path d="M18 8a6 6 0 0 0-9.33-5"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+             @endif
             </div>
             </div>
            
             <span class="badge bg-primary rounded-pill">14</span>
         </li>
             @endforeach
-</ol>
+            </ol>
 
-
-
+            <div>
+              
             </div>
+         </div>
         </div>
     </div>
     <div class="col-md-8">
@@ -122,29 +130,30 @@
 
             <!-- Button trigger modal -->
             <div class="row mb-3">
-          <div class="col-md-6">
+          <div class="col-md-4">
                 <div class="form-floating">
                     <input type="text" wire:model="Nchapter" class="form-control form-control-sm" id="floatingInput">
                     <label for="floatingInput">Chapter</label>
                     @error('Nchapter') <span class="text-danger">{{ $message }}</span> @enderror 
                 </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
                 <div class="form-floating">
                         <input type="text"  wire:model="Ntitle"  class="form-control form-control-sm" id="floatingInput">
                         <label for="floatingInput">Title</label>
                         @error('Ntitle') <span class="text-danger">{{ $message }}</span> @enderror 
                 </div>
           </div>
+          <div class="col-md-4">
+                <div class="form-floating">
+                    <input type="number" wire:model="Norder" class="form-control form-control-sm" id="floatingInput">
+                    <label for="floatingInput">Order ID</label>
+                    @error('Norder') <span class="text-danger">{{ $message }}</span> @enderror 
+                </div> 
+          </div>
       </div>
 
-           <div class="form-floating mb-3">
-                <input type="file" wire:model="Nfile" class="form-control form-control-sm" id="floatingInput">
-                <label for="floatingInput">Video File</label>
-                @error('Nfile') <span class="text-danger">{{ $message }}</span> @enderror 
-            </div>
-
-            <div class="row">
+            <div class="row mb-2">
             <div class="col-md-6">
             <div class="form-floating">
             <select class="form-select" wire:model="Nstatus" id="floatingSelect" aria-label="Floating label select example">
@@ -157,11 +166,11 @@
             </div>
             </div>
             <div class="col-md-6">
-            <div class="form-floating mb-3">
-                <input type="number" wire:model="Norder" class="form-control form-control-sm" id="floatingInput">
-                <label for="floatingInput">Order ID</label>
-                @error('Norder') <span class="text-danger">{{ $message }}</span> @enderror 
-            </div>
+                <div class="form-floating">
+                        <input type="text"  wire:model="Nfile"  class="form-control form-control-sm" id="floatingInput">
+                        <label for="floatingInput">Video ID</label>
+                        @error('Nfile') <span class="text-danger">{{ $message }}</span> @enderror 
+                </div>
             </div>
             </div>
 
@@ -195,6 +204,9 @@
       </div>
       <div class="modal-body">
       <h6 class="">{{ $Vtitle }}</h6>
+@if ($Vfile)
+      <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/{{ $Vfile }}?h=a33df2a000&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="simple"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+@endif
          <div style="overflow-x: hidden; overflow-y: auto;">
              {!! $Vdetails !!}
         </div>
@@ -208,9 +220,16 @@
 
 @section('scripts')
 <script>
+   
 $(document).ready(function() {
-	editor = CKEDITOR.replace( 'newsnote' );
- 
+
+  let editor = CKEDITOR.replace( 'newsnote' );
+            // when a change occuress in the edit set it to variable.
+            editor.on( 'change', function( evt ) {
+        // getData() returns CKEditor's HTML content.
+        @this.set('Ndetails',evt.editor.getData() );
+    });
+
     Livewire.on('setDetailsDataEvent',details=>{
         CKEDITOR.instances.newsnote.setData(details);
         @this.set('Ndetails',details);
@@ -221,14 +240,9 @@ $(document).ready(function() {
         @this.set('Ndetails','');  
     });
 
-        // when a change occuress in the edit set it to variable.
-    editor.on( 'change', function( evt ) {
-        // getData() returns CKEditor's HTML content.
-        @this.set('Ndetails',evt.editor.getData() );
-    });
 
     Livewire.on('showModalEvent',()=>{
-         $('#displayContentModal').modal('show');
+        $('#displayContentModal').modal('show');
     });
 
   

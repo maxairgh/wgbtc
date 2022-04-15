@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Facilitators;
 use Livewire\Component;
 use App\Models\Term;
 use App\Models\Course;
+use App\Models\PubblishContent;
 use App\Models\Coursecontent as Content; 
 use App\Models\LearnerCourseRegistration as Lcoursereg;
 use App\Models\FacilitatorCourseRegistration as coursereg;
@@ -12,13 +13,21 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\SmsTrait;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Vimeo\Laravel\Facades\Vimeo;
+use Livewire\WithFileUploads;
+
 
 class Coursecontent extends Component
 {
-    use SmsTrait, LivewireAlert;
+    use SmsTrait, LivewireAlert, WithFileUploads;
 
     public $selectMode = true, $Vchapter, $Vtitle, $Vfile, $Vstatus, $Vorder, $Vdetails, $isUpdate = false, $label = "SAVE";
-    public $selectCourse, $Nchapter, $Ntitle, $Nfile, $Nstatus, $Norder, $Ndetails, $courseContents=[], $updateID;
+    public $selectCourse, $nContentId, $Nchapter, $Ntitle, $Nfile, $Nstatus, $Norder, $Ndetails, $courseContents=[], $updateID;
+    public $deleteID, $unPublishId, $activeTerm;
+
+    protected $listeners = [
+        'DeleteNow', 
+        'unPublishNow',
+    ];
 
     public function getCourse(){
         $Details = [];
@@ -46,18 +55,19 @@ class Coursecontent extends Component
         $this->validate([
             'Nchapter' => ['required','string'],  
             'Ntitle' => ['required','string'],  
-            'Nfile' => ['sometimes','mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi'],  
+           // 'Nfile' => ['nullable','mimetypes:video/mp4,video/x-msvideo','max:500000'],  
             'Nstatus' => ['required','integer'],  
             'Norder' => ['required','integer'],  
             'Ndetails' => ['required','string'],  
         ]); 
+
 
         if ($this->isUpdate){
             //update
             $done = Content::where('id',$this->updateID)->update([
                 'chapter' => $this->Nchapter, 
                 'title' => $this->Ntitle,
-                //'video' => $this->Nfile,
+                'video' => $this->Nfile,
                 'status' => $this->Nstatus,
                 'details' => $this->Ndetails,
                 'order' => $this->Norder,
@@ -67,6 +77,7 @@ class Coursecontent extends Component
             if ($done){
                 session()->flash('success', 'Content updated successfully');
                 $this->resetForm();
+                $this->getCourseContent($this->selectCourse->id);
                 $this->alert('success', 'Content updated successfully',[
                  'position' => 'center'
              ]);
@@ -77,7 +88,7 @@ class Coursecontent extends Component
                 'course_id' => $this->selectCourse->id, 
                 'chapter' => $this->Nchapter, 
                 'title' => $this->Ntitle,
-                //'video' => $this->Nfile,
+                'video' => $this->Nfile,
                 'status' => $this->Nstatus,
                 'details' => $this->Ndetails,
                 'order' => $this->Norder,
@@ -88,6 +99,7 @@ class Coursecontent extends Component
             if ($done){
                 session()->flash('success', 'Content added successfully');
                 $this->resetForm();
+                $this->getCourseContent($this->selectCourse->id);
                 $this->alert('success', 'Content added successfully',[
                  'position' => 'center'
              ]);
@@ -118,6 +130,7 @@ class Coursecontent extends Component
 
    public function getCourseContent($id){
         $this->courseContents = Content::where('course_id',$id)->orderBy('order')->get();
+        $this->activeTerm = Term::where('status','Active')->first();
    }
 
    public function viewContentDetails($id){
@@ -163,8 +176,92 @@ class Coursecontent extends Component
             'position' => 'center'
         ]);
     }
+     
+    public function deleteMaterial($id){
+        $this->deleteID = $id;
+        $this->alert('question', 'Are you sure you want to delete ?', [
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'Yes, Delete', 
+            'showCancelButton' => true,
+            'cancelButtonText' => 'No!',
+            'position' => 'center',
+            'timer' => null,
+            'onConfirmed' => 'DeleteNow',
+        ]);
 
-   
+    }
+
+    public function deleteNow(){
+        $content = Content::where('id',$this->$deleteID)->orderBy('order')->first();
+        $Course_id = $content->course_id;
+        if ($content->delete()){
+            $this->getCourseContent($Course_id);
+            session()->flash('success', 'Content deleted successfully');
+            $this->alert('success', 'Content deleted successfully',[
+                'position' => 'center'
+            ]);
+            return ;  
+        }
+        session()->flash('success', 'Content could not be deleted');
+            $this->alert('success', 'Content could not be deleted',[
+                'position' => 'center'
+            ]);
+    }
+
+    public function publishContentForActiveTerm($id){
+        //active term details
+         if ($this->activeTerm){
+            $done = PubblishContent::create([
+                'course_id' => $this->selectCourse->id,
+                'term_id' => $this->activeTerm->id,
+                'content_id' => $id, 
+                'check' => md5($this->selectCourse->id.$this->activeTerm->id.$id),
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+
+            if ($done){
+                session()->flash('success', 'Content published successfully');
+                $this->alert('success', 'Content published successfully',[
+                    'position' => 'center'
+                ]);
+                $this->getCourseContent($this->selectCourse->id);
+                return;
+            }
+        }
+        session()->flash('warning', 'Content could not be published');
+        $this->alert('success', 'Content could not be published',[
+            'position' => 'center'
+        ]);
+    }
+
+    public function unPublishContent($id){
+        $this->unPublishId = $id;
+        $this->alert('question', 'Are you sure you want to unpublish content ?', [
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'Yes, remove', 
+            'showCancelButton' => true,
+            'cancelButtonText' => 'No!',
+            'position' => 'center',
+            'timer' => null,
+            'onConfirmed' => 'unPublishNow',
+        ]);
+    }
+
+    public function unPublishNow(){
+       if( PubblishContent::where('id',$this->unPublishId)->delete() ){
+        session()->flash('success', 'Content unpublished successfully');
+        $this->alert('success', 'Content unpublished successfully',[
+            'position' => 'center'
+        ]);
+        $this->getCourseContent($this->selectCourse->id);
+        return;
+       }
+       session()->flash('success', 'Content could not be unpublished');
+       $this->alert('success', 'Content could not be unpublished',[
+           'position' => 'center'
+       ]);
+    }
 
     public function render()
     {

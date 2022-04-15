@@ -1,4 +1,4 @@
-@extends('layouts.pnis')
+@extends('layouts.admin')
 
 @section('title','Dashboard')
 
@@ -24,7 +24,7 @@
 		<div class="col-md-4">
 			<livewire:admin.components />
 	    </div>
-		<div class="col-md-4">sss</div>
+		<div class="col-md-4"><livewire:admin.assesstypes /></div>
 		<div class="col-md-4">ss</div>
 	</div>
 	</form>
