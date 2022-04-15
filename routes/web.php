@@ -53,7 +53,8 @@ Route::group(['prefix' => 'facilitators',  'middleware' => 'auth'], function()
     Route::get('news', App\Http\Livewire\Facilitators\Displaynews::class)->name('fnews');
     Route::get('course/content', App\Http\Livewire\Facilitators\Coursecontent::class)->name('fcoursecontent');
     Route::post('course/video/upload', [App\Http\Controllers\FacilitatorController::class, 'uploadVideo'])->name('uploadvideo'); 
-    Route::get('course/work', App\Http\Livewire\Facilitators\Coursecontent::class)->name('fcoursecontent');
+    Route::get('course/work', App\Http\Livewire\Facilitators\Courseworks::class)->name('coursework');
+    Route::get('course/quiz', App\Http\Livewire\Facilitators\Coursquizes::class)->name('coursequiz');
 
 });
 

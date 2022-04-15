@@ -24,12 +24,12 @@
             		</a>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{ route('fcoursecontent') }}">
+						<a class="sidebar-link" href="{{ route('coursework') }}">
               			<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Course Works</span>
             		</a>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{ route('fcoursecontent') }}">
+						<a class="sidebar-link" href="{{ route('coursequiz') }}">
               			<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Course Quizes</span>
             		</a>
 
