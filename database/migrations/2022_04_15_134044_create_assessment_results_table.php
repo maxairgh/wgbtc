@@ -21,6 +21,7 @@ return new class extends Migration
             $table->bigInteger('learner_id')->unsigned();
             $table->longText('content');
             $table->string('attachment');
+            $table->string('checks')->unique(); 
             $table->timestamps();
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('term_id')->references('id')->on('terms')->onDelete('restrict')->onUpdate('cascade');

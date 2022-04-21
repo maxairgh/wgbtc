@@ -76,11 +76,87 @@
             <h4 class="text-success"> {{ $selectedCourse->code ?? '' }} - {{ $selectedCourse->title ?? '' }} 
             <button type="button" wire:click="backToCourses" class="btn btn-primary btn-sm float-end" >Back <<</button>
             </h4>
+            <hr class="text-success" />
+
+            <h4>{{ $selectedQuiz->type->code ?? "" }} {{ $selectedQuiz->type->name ?? ""  }}</h3>
+            <div id="">
+                    {!! $selectedQuiz->content ?? "" !!}
+            </div>
+            <span wire:click="" class="badge bg-secondary float-end">Due Date: {{ date('j M Y H:i:s',strtotime($selectedQuiz->duedate ?? '')) }}</span>
             </div>
         </div>
     </div>
 
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+            <h6 class="text-success"> Add Questions</h6>
+            <hr class="text-success" />
+                <div class="input-group mb-2">
+                <input type="text" wire:model="code" class="form-control" placeholder="Question" aria-label="Username" aria-describedby="basic-addon1">
+                <textarea class="form-control" aria-label="With textarea"></textarea>
+                </div>
+                <div class="input-group mb-2">
+                <input type="text" wire:model="name" class="form-control" placeholder="Option 1" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" wire:model="name" class="form-control" placeholder="Option 2" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" wire:model="name" class="form-control" placeholder="Option 3" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" wire:model="name" class="form-control" placeholder="Option 4" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-2">
+                <input type="text" wire:model="percentage" class="form-control" placeholder="Answers, separate with | for multiple select" aria-label="Username" aria-describedby="basic-addon1">
+                <select class="form-select" wire:model="quiz" id="floatingSelect" aria-label="Floating label select example">
+                <option value="1">Multiple Choice</option>
+                <option value="2">Multi</option>
+                </select>
+                <span wire:click="saveType" class="input-group-text" id="basic-addon1">ADD QUESTION</span>
+                </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+            
+            <table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Question</th>
+      <th scope="col">Option 1</th>
+      <th scope="col">Option 2</th>
+      <th scope="col">Option 3</th>
+      <th scope="col">Option 4</th>
+      <th scope="col">Answers</th>
+      <th scope="col">type</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach ($selectedQuiz->quizes ?? [] as $found)
+    <tr>
+      <th scope="row">{{ $found->matrix }}</th>
+      <td>{{ $found->lastname }} {{ $found->firstname }} </td>   
+      <td>{{ $found->gender }}</td>
+      <td>{{ $found->email  }}</td>
+      <td>{{ $found->mobile  }}</td>
+      <td>{{  $found->status }}</td>
+      <td>
+  
+     
+      <td>
+                <div class="btn-group btn-group-sm mb-4" role="group" aria-label="Small button group">
+					<button class="btn btn-info btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit align-middle me-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> View</button>
+					<button class="btn btn-primary btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit align-middle me-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Edit</button>
+				</div>
+      </td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 

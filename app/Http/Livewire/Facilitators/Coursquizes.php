@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Facilitators;
 use Livewire\Component;
 use App\Models\Term;
 use App\Models\Course;
+use App\Models\Assessment; 
 use App\Http\Traits\SmsTrait;
 use Livewire\WithFileUploads;
 use Vimeo\Laravel\Facades\Vimeo;
@@ -15,7 +16,8 @@ use App\Models\LearnerCourseRegistration as Lcoursereg;
 
 class Coursquizes extends Component
 {
-    public $selectMode = true, $selectedCourse, $activeCourse;
+    public $selectMode = true, $selectedCourse, $activeCourse, $activeTerm, $selectedQuiz=[];
+   
 
 
     public function getCourse(){
@@ -23,12 +25,12 @@ class Coursquizes extends Component
         $userID = Auth::user()->id;
         $courses = coursereg::where('staff_id',$userID)->get();
          //active term details
-        $term = Term::where('status','Active')->first();
+        $this->activeTerm = Term::where('status','Active')->first();
         
         foreach($courses as $course){
             $list = [];
             $list['title'] = $course->course->code . ' - '. $course->course->title ;
-            $list['number'] = Lcoursereg::where('term_id',$term->id)->where('course_id',$course->course_id)->count();
+            $list['number'] = Lcoursereg::where('term_id',$this->activeTerm->id)->where('course_id',$course->course_id)->count();
             $list['id'] = $course->course_id;
             $Details[] = $list;
         }
@@ -39,7 +41,7 @@ class Coursquizes extends Component
     public function manageContent($id){
         $this->selectMode = false;
         $this->selectedCourse = Course::where('id',$id)->first();
-        $this->getCourseContent($id);
+        $this->getCourseWork($id);
     }
 
     public function backToCourses(){
@@ -47,8 +49,9 @@ class Coursquizes extends Component
         $this->resetForm();
        }
 
-    public function getCourseContent($id){
-
+    public function getCourseWork($id){
+        $this->selectedQuiz = Assessment::where('term_id',$this->activeTerm->id)->where('course_id',$id)->where('quiz',2)->first();
+   
     }
 
     public function resetForm(){
