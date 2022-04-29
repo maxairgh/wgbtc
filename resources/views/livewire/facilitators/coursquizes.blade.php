@@ -82,8 +82,35 @@
             <div id="">
                     {!! $selectedQuiz->content ?? "" !!}
             </div>
-            <span wire:click="" class="badge bg-secondary float-end">Due Date: {{ date('j M Y H:i:s',strtotime($selectedQuiz->duedate ?? '')) }}</span>
-            </div>
+           
+		    <div class="row">
+				<div class="col-md-6">
+					<div class="input-group">
+					<input type="file" wire:model="excelfile" class="form-control" placeholder="Excel" aria-label="Username" aria-describedby="basic-addon1">
+					<span class="btn-button btn-success input-group-text" id="basic-addon1"><button {{ (!$selectedQuiz) ? "disabled" : "" }}  wire:click="uploadQuestions" type="button" class="btn btn-success btn-sm">EXCEL UPLOAD</button></span>
+					</div>
+          <div wire:loading wire:target="uploadQuestions" class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          @error('excelfile') <span class="text-danger">{{ $message }}</span> @enderror 
+				</div>
+        <div class="col-md-3">
+        <div class="input-group">
+					<input type="text" wire:model="allocateQuizTime" value="{{ $selectedQuiz->time ?? '' }}" class="form-control" placeholder="Time" aria-label="Username" aria-describedby="basic-addon1">
+					<span class="btn-button btn-success input-group-text" id="basic-addon1"><button {{ (!$selectedQuiz) ? "disabled" : "" }}  wire:click="updateTime" type="button" class="btn btn-success btn-sm">Update Time</button></span>
+					</div>
+          <div wire:loading wire:target="updateTime" class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          @error('allocateQuizTime') <span class="text-danger">{{ $message }}</span> @enderror 
+        </div>
+				<div class="col-md-3">
+					<span class="badge bg-secondary">Due Date: {{ date('j M Y H:i:s',strtotime($selectedQuiz->duedate ?? '')) }}</span><br>
+					<span class="badge bg-secondary">Allocated Time: {{ $selectedQuiz->time ?? '0' }}Minutes</span>
+				</div>
+			</div>
+		   
+           </div>
         </div>
     </div>
 
@@ -93,23 +120,24 @@
             <h6 class="text-success"> Add Questions</h6>
             <hr class="text-success" />
                 <div class="input-group mb-2">
-                <input type="text" wire:model="code" class="form-control" placeholder="Question" aria-label="Username" aria-describedby="basic-addon1">
-                <textarea class="form-control" aria-label="With textarea"></textarea>
+                    <textarea class="form-control" wire:model="question" placeholder="Question (Stem)" aria-label="With textarea"></textarea>
                 </div>
                 <div class="input-group mb-2">
-                <input type="text" wire:model="name" class="form-control" placeholder="Option 1" aria-label="Username" aria-describedby="basic-addon1">
-                <input type="text" wire:model="name" class="form-control" placeholder="Option 2" aria-label="Username" aria-describedby="basic-addon1">
-                <input type="text" wire:model="name" class="form-control" placeholder="Option 3" aria-label="Username" aria-describedby="basic-addon1">
-                <input type="text" wire:model="name" class="form-control" placeholder="Option 4" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" wire:model="alt1" class="form-control" placeholder="Option 1" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" wire:model="alt2" class="form-control" placeholder="Option 2" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" wire:model="alt3" class="form-control" placeholder="Option 3" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" wire:model="alt4" class="form-control" placeholder="Option 4" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-2">
-                <input type="text" wire:model="percentage" class="form-control" placeholder="Answers, separate with | for multiple select" aria-label="Username" aria-describedby="basic-addon1">
-                <select class="form-select" wire:model="quiz" id="floatingSelect" aria-label="Floating label select example">
-                <option value="1">Multiple Choice</option>
-                <option value="2">Multi</option>
-                </select>
-                <span wire:click="saveType" class="input-group-text" id="basic-addon1">ADD QUESTION</span>
+                <input type="text" wire:model="answer" class="form-control" placeholder="Answer, separate with | for multiple select options" aria-label="Username" aria-describedby="basic-addon1">
+                <span class="btn-button btn-success input-group-text" id="basic-addon1"><button {{ (!$selectedQuiz) ? "disabled" : "" }}  type="button" wire:click="saveQuestion" class="btn btn-success btn-sm">ADD QUESTION</button></span>
                 </div>
+                @error('question') <span class="text-danger">{{ $message }}</span> <br>@enderror 
+                @error('alt1') <span class="text-danger">{{ $message }}</span> <br>@enderror   
+                @error('alt2') <span class="text-danger">{{ $message }}</span> <br>@enderror  
+                @error('alt3') <span class="text-danger">{{ $message }}</span> <br>@enderror  
+                @error('alt4') <span class="text-danger">{{ $message }}</span> <br>@enderror  
+                @error('answer') <span class="text-danger">{{ $message }}</span> <br>@enderror 
 
             </div>
         </div>
@@ -117,7 +145,11 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-            
+            <div>
+            <b>Total Questions:</b> {{ $counted }}
+              <button {{ (!$selectedQuiz) ? "disabled" : "" }}  type="button" wire:click="clearQuestions" class="btn btn-danger btn-sm float-end">Clear ALL Questions</button>
+              <hr class="text-success">
+            </div>
             <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -126,39 +158,35 @@
       <th scope="col">Option 2</th>
       <th scope="col">Option 3</th>
       <th scope="col">Option 4</th>
-      <th scope="col">Answers</th>
-      <th scope="col">type</th>
+      <th scope="col">Answers</th> 
       <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
-  @foreach ($selectedQuiz->quizes ?? [] as $found)
+  @foreach ($quizQuestions as $found)
     <tr>
-      <th scope="row">{{ $found->matrix }}</th>
-      <td>{{ $found->lastname }} {{ $found->firstname }} </td>   
-      <td>{{ $found->gender }}</td>
-      <td>{{ $found->email  }}</td>
-      <td>{{ $found->mobile  }}</td>
-      <td>{{  $found->status }}</td>
+      <th scope="row">{{ $found->id }}. {{ $found->question }}</th>
+      <td>{{ $found->answer1 }}</td>   
+      <td>{{ $found->answer2 }}</td>
+      <td>{{ $found->answer3  }}</td>
+      <td>{{ $found->answer4  }}</td>
+      <td>{{  $found->answers }}</td>
       <td>
-  
-     
-      <td>
-                <div class="btn-group btn-group-sm mb-4" role="group" aria-label="Small button group">
-					<button class="btn btn-info btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit align-middle me-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> View</button>
-					<button class="btn btn-primary btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit align-middle me-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Edit</button>
-				</div>
+          <div class="btn-group btn-group-sm mb-4" role="group" aria-label="Small button group">
+            <button wire:click="editQuestion({{ $found->id }})"  class="btn btn-info btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit align-middle me-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> </button>
+            <button wire:click="deleteQuestion({{ $found->id }})" class="btn btn-danger btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-delete align-middle me-2"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg> </button>
+				  </div>
       </td>
     </tr>
     @endforeach
   </tbody>
 </table>
-
+            <hr class="text-success">
+             {{ $quizQuestions->links() }}
             </div>
         </div>
     </div>
 </div>
-
 
 
 @section('scripts')

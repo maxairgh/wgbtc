@@ -13,6 +13,7 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.10",
+        "rap2hpoutre/fast-excel": "^3.2",
         "vimeo/laravel": "^5.7"
     },
     "require-dev": {

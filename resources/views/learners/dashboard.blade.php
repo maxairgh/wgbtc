@@ -1,4 +1,4 @@
-@extends('layouts.pnis')
+@extends('layouts.learner')
 
 @section('title','Dashboard')
 
@@ -17,6 +17,8 @@
 @section('content')
 
 @endsection
+
+ 
 
 @section('scripts')
 <script>

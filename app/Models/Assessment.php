@@ -23,6 +23,7 @@ class Assessment extends Model
         'attachment',
         'duedate',
         'quiz',
+        'time',
         'checks',
         'created_at', 
         'updated_at', 
@@ -50,6 +51,15 @@ class Assessment extends Model
     public function type()
     {
         return $this->belongsTo(Assesstype::class,'assesstype_id','id');
+    }
+
+    
+                 /**
+     * Get the programs associated with the user.
+     */
+    public function quizes()
+    {
+        return $this->hasMany(Quizquestions::class,'assess_id','id');
     }
 
 }

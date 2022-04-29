@@ -31,30 +31,30 @@
 <body>
 	<div class="wrapper">
 		 <!-- partial:partials/_sidebar.html -->
-        @include('partials._sidebar')       
+        @include('partials.learners._sidebar')       
 		<!-- partial -->
 		
 		<div class="main">
 	  <!-- partial:partials/_navbar.html -->
-      @include('partials._navbar') 
+      @include('partials.learners._navbar') 
       <!-- partial -->
 			
 			<main class="content">
 				<div class="container-fluid p-0">
 					<!-- partial -->
-					@include('partials._success')   
-					@include('partials._errors') 
+					@include('partials.learners._success')   
+					@include('partials.learners._errors') 
 					<!-- main content -->
 					@yield('navigation')
 					@yield('content')
-					{{ $slot }}
+					{{ $slot ?? '' }}
 				</div>
 			</main>
 
 		<!-- partial:partials/_footer.html -->
-		@include('partials._footer')
+		@include('partials.admin._footer')
 		<!-- partial -->			
-		@include('sweetalert::alert')	
+		
 		</div>
 	</div>
 

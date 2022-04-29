@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'logIn'])->name('login');  
 Route::get('/online/registration', App\Http\Livewire\Admin\Onlineregistration::class);
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard'); 
 //Route::get('/user/profile', App\Http\Livewire\UserProfile::class)->name('');
 
 /*
@@ -25,7 +26,6 @@ routes
 Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
 {
     //All the routes that belongs to the group goes here
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard'); 
     Route::get('/user/profile', [App\Http\Controllers\UserController::class, 'adminProfile'])->name('userprofile'); 
     //Route::resource('/user', App\Http\Controllers\UserController::class);
     Route::get('/user/management', App\Http\Livewire\UserManagement::class)->name('manageuser');
@@ -55,6 +55,16 @@ Route::group(['prefix' => 'facilitators',  'middleware' => 'auth'], function()
     Route::post('course/video/upload', [App\Http\Controllers\FacilitatorController::class, 'uploadVideo'])->name('uploadvideo'); 
     Route::get('course/work', App\Http\Livewire\Facilitators\Courseworks::class)->name('coursework');
     Route::get('course/quiz', App\Http\Livewire\Facilitators\Coursquizes::class)->name('coursequiz');
+
+});
+
+
+/*
+Facilitators 
+routes
+*/
+Route::group(['prefix' => 'learner',  'middleware' => 'auth'], function()
+{
 
 });
 
